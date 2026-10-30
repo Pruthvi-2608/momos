@@ -1,0 +1,11 @@
+node_modules/
+dist/
+test-results/
+*.tsbuildinfo
+media-source/
+.vercel
+.env
+.env.*.local
+.DS_Store
+Thumbs.db
+

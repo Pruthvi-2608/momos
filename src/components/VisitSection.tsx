@@ -1,0 +1,6 @@
+﻿import {ArrowUpRight,MapPin} from 'lucide-react';
+import {brand,photo} from '../data/content';
+import {ButtonLink,FoodPhoto,Star} from './ui';
+import MountainLayers from './MountainLayers';
+export default function VisitSection(){return <section id="visit" className="visit-section" data-scene="visit" data-ambient><div className="container visit-panel"><MountainLayers variant="visit"/><div className="visit-copy"><span className="eyebrow">06 / YOUR NEXT LITTLE MOMENT</span><h2 data-reveal="lines">Come for the momos.<br/><em>Stay for the mood.</em></h2><p data-reveal>Bring your people. We’ll bring the little parcels of joy.</p><div className="visit-actions"><ButtonLink light href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent('Momos & Stuff '+brand.address)}`}>Get directions</ButtonLink><a className="text-link" href={brand.instagram} target="_blank" rel="noreferrer">Say hello on Instagram <ArrowUpRight size={17}/></a></div><div className="visit-address"><MapPin size={17}/><span>{brand.address}<br/>Also in {brand.additionalLocation} · Ask us for current hours</span></div></div><div className="visit-photo" data-reveal="wipe"><FoodPhoto photo={photo('table')}/><span>room for one more ♡</span></div><Star className="visit-star"/></div></section>;}
+

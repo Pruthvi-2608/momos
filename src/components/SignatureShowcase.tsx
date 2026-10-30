@@ -1,0 +1,12 @@
+import {useState} from 'react';
+import {AnimatePresence,motion} from 'motion/react';
+import {ArrowLeft,ArrowRight,ArrowUpRight} from 'lucide-react';
+import {featured,photo} from '../data/content';
+import {FoodPhoto,SectionLabel} from './ui';
+export default function SignatureShowcase(){const [selected,setSelected]=useState(0);const item=featured[selected];const select=(index:number)=>setSelected((index+featured.length)%featured.length);
+ return <section id="featured" className="signature-scene section-pad" data-scene="signature" data-ambient><div className="container signature-layout">
+  <div className="signature-copy"><div data-reveal="lines"><SectionLabel>01 / THE LITTLE CRAVINGS</SectionLabel><h2>The little<br/>things <em>we crave.</em></h2></div><p data-reveal>A little heat. A little sweetness.<br/>A whole lot to look forward to.</p><a className="text-link" href="#menu">Find your favourite <ArrowUpRight size={18}/></a><div className="signature-controls"><button className="round-button" aria-label="Previous featured photo" onClick={()=>select(selected-1)}><ArrowLeft size={19}/></button><span aria-live="polite">0{selected+1} / 0{featured.length}</span><button className="round-button" aria-label="Next featured photo" onClick={()=>select(selected+1)}><ArrowRight size={19}/></button></div></div>
+  <div className="signature-main" data-reveal="wipe" onKeyDown={e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();select(selected+(e.key==='ArrowRight'?1:-1));}}} tabIndex={0} aria-label="Featured food. Use left and right arrows to browse."><div className="signature-photo-window"><AnimatePresence mode="wait" initial={false}><motion.div className="signature-selected" key={item.photo} initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-10}} transition={{duration:.3}}><FoodPhoto photo={photo(item.photo)}/></motion.div></AnimatePresence><span className="signature-ring ambient" aria-hidden="true">a little bite of happy ♡</span></div><div className="signature-description" aria-live="polite"><span className="eyebrow">{item.tag}</span><h3>{item.title}</h3><p>{item.description}</p></div></div>
+  <div className="signature-thumbs" data-reveal="stagger">{featured.map((entry,i)=><button key={entry.photo} className={`signature-thumb ${i===selected?'selected':''}`} onClick={()=>select(i)} aria-label={`Feature ${entry.title}`} aria-pressed={selected===i}><FoodPhoto photo={photo(entry.photo)}/><span>0{i+1}</span></button>)}</div>
+ </div></section>;
+}

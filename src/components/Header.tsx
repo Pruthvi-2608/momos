@@ -1,0 +1,16 @@
+import {useState,useEffect,useRef} from 'react';
+import {AnimatePresence,motion} from 'motion/react';
+import {Menu,X,ArrowUpRight} from 'lucide-react';
+import {brand} from '../data/content';
+const links=[['home','Home'],['story','Our Story'],['menu','Menu'],['moments','Moments'],['visit','Visit']];
+export default function Header(){
+ const [open,setOpen]=useState(false);const [active,setActive]=useState('home');const [scrolled,setScrolled]=useState(false);const toggle=useRef<HTMLButtonElement>(null);const sheet=useRef<HTMLDivElement>(null);
+ useEffect(()=>{const sentinel=document.querySelector('#header-sentinel');const o=new IntersectionObserver(([e])=>setScrolled(!e.isIntersecting));if(sentinel)o.observe(sentinel);const sections=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setActive(e.target.id);});},{rootMargin:'-15% 0px -55% 0px'});links.forEach(([id])=>{const el=document.getElementById(id);if(el)sections.observe(el);});return()=>{o.disconnect();sections.disconnect();};},[]);
+ useEffect(()=>{
+  if(!open)return;
+  const old=document.body.style.overflow;document.body.style.overflow='hidden';sheet.current?.querySelector<HTMLAnchorElement>('a')?.focus();
+  const onKey=(e:KeyboardEvent)=>{if(e.key==='Escape')setOpen(false);if(e.key==='Tab'){const targets=[toggle.current,...Array.from(sheet.current?.querySelectorAll<HTMLAnchorElement>('a')??[])].filter(Boolean) as HTMLElement[];const i=targets.indexOf(document.activeElement as HTMLElement);if(e.shiftKey&&i===0){e.preventDefault();targets[targets.length-1].focus();}else if(!e.shiftKey&&i===targets.length-1){e.preventDefault();targets[0].focus();}}};
+  const resize=()=>{if(window.innerWidth>=768)setOpen(false);};window.addEventListener('resize',resize);document.addEventListener('keydown',onKey);return()=>{document.body.style.overflow=old;document.removeEventListener('keydown',onKey);window.removeEventListener('resize',resize);toggle.current?.focus();};
+ },[open]);
+ return <header className={`site-header ${scrolled?'scrolled':''}`}><div className="container header-inner"><a href="#home" className="brand" aria-label="Momos & Stuff home"><img className="brand-logo" src={brand.logo} width="66" height="66" alt="Momos & Stuff"/></a><nav className="desktop-nav" aria-label="Main navigation">{links.map(([id,label])=><a key={id} href={`#${id}`} aria-current={active===id?'location':undefined}>{label}</a>)}</nav><a href="#menu" className="header-cta">Explore Menu <ArrowUpRight size={16}/></a><button className="mobile-toggle round-button" aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open} aria-controls="mobile-nav" onClick={()=>setOpen(!open)} ref={toggle}>{open?<X/>:<Menu/>}</button></div><AnimatePresence>{open&&<motion.div id="mobile-nav" ref={sheet} className="mobile-sheet" initial={{opacity:0,y:-16}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-16}} transition={{duration:.35}}><nav aria-label="Mobile navigation">{links.map(([id,label],i)=><motion.a key={id} href={`#${id}`} initial={{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{delay:i*.05}} onClick={()=>setOpen(false)}><span>0{i+1}</span>{label}<ArrowUpRight/></motion.a>)}</nav><p>Little parcels. Big comfort.</p></motion.div>}</AnimatePresence></header>;
+}

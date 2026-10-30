@@ -1,0 +1,10 @@
+import {motion} from 'motion/react';
+import {ArrowUpRight} from 'lucide-react';
+import {type Photo,photoDimensions} from '../data/content';
+export function FoodPhoto({photo,className='',priority=false}:{photo:Photo;className?:string;priority?:boolean}){const [width,height]=photoDimensions[photo.id];const variants=[480,960,1600].filter((w,i,all)=>i===0||Math.min(w,width)!==Math.min(all[i-1],width));return <img className={className} src={`/assets/instagram/${photo.id}-960.jpg`} srcSet={variants.map(w=>`/assets/instagram/${photo.id}-${w}.jpg ${Math.min(w,width)}w`).join(',')} sizes={priority?'(max-width: 767px) 92vw, 48vw':'(max-width: 767px) 92vw, 40vw'} width={width} height={height} style={{objectPosition:photo.position}} alt={photo.alt} loading={priority?'eager':'lazy'} fetchPriority={priority?'high':undefined} decoding="async" draggable={false}/>;}
+export function ButtonLink({href,children,light=false}:{href:string;children:React.ReactNode;light?:boolean}){return <motion.a href={href} className={`button ${light?'button-light':''}`} whileHover={{scale:1.035}} whileTap={{scale:.97}}>{children}<ArrowUpRight size={18}/></motion.a>;}
+export function Star({className=''}:{className?:string}){return <span aria-hidden="true" className={`star ambient ${className}`}>✧</span>;}
+export function Steam(){return <svg className="steam" viewBox="0 0 100 110" aria-hidden="true"><path className="ambient" d="M25 100C0 65 50 65 25 20"/><path className="ambient" d="M55 100C30 65 80 65 55 5"/><path className="ambient" d="M85 100C60 65 110 65 85 25"/></svg>;}
+export function SectionLabel({children}:{children:React.ReactNode}){return <div className="eyebrow section-label"><span/> {children}</div>;}
+export function Instagram({size=20}:{size?:number}){return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".7" fill="currentColor"/></svg>;}
+

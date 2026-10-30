@@ -1,0 +1,8 @@
+import {ArrowUpRight} from 'lucide-react';
+import {brand,photo} from '../data/content';
+import {FoodPhoto,SectionLabel} from './ui';
+import MountainLayers from './MountainLayers';
+export default function SikkimStory(){return <section id="story" className="story-chapter section-pad" data-scene="story" data-ambient><MountainLayers variant="story"/><div className="container story-grid">
+ <div className="story-text"><div data-reveal="lines"><SectionLabel>02 / ROOTED IN SIKKIM</SectionLabel><h2>A taste<br/>of <em>the hills.</em></h2></div><p data-reveal>Some things bring us a little closer. A plate passed across the table. A familiar face. That first bite you’ve been thinking about all day.</p><p data-reveal>From Sikkim to Silvassa, and now Vapi — a little corner for good food, good company, and all the moments in between.</p><blockquote data-reveal><span>“</span><p>{brand.story}</p><cite>— FROM OUR INSTAGRAM</cite></blockquote><a className="text-link" href={brand.storySource} target="_blank" rel="noreferrer">Follow our little journey <ArrowUpRight size={18}/></a></div>
+ <div className="story-art" data-reveal="wipe"><div className="story-image" data-parallax data-distance="-55" data-scale="1.06"><FoodPhoto photo={photo('cafe')}/></div><div className="story-small-photo" data-parallax data-distance="35"><FoodPhoto photo={photo('together')}/></div><span className="story-stamp ambient">FROM THE HILLS<br/><span>♡</span><br/>WITH A LITTLE LOVE</span></div>
+ </div><svg className="story-trail" viewBox="0 0 1400 200" aria-hidden="true"><path data-draw d="M-30 170C200-100 260 280 510 105S820 210 1030 100s260-60 400 20" pathLength="1"/></svg><span className="chapter-side-label" aria-hidden="true">A LITTLE BIT OF SIKKIM</span></section>;}
